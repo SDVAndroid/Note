@@ -17,7 +17,6 @@ class DeleteCommentNotFoundException(commentId: Int) : Exception("Удалённ
 object NotesService {
     val databaseNotes: MutableList<Notes> = mutableListOf()
     val databaseComments: MutableList<Comment> = mutableListOf()
-    val databaseDeleteNotes: MutableList<Notes> = mutableListOf()
     val databaseDeleteComments: MutableList<Comment> = mutableListOf()
 
     fun addNote(title: String, text: String, noteId: Int) {
@@ -34,7 +33,7 @@ object NotesService {
         val noteToDelete = databaseNotes.find { it.noteId == noteId }
         if (noteToDelete != null) {
             databaseNotes.remove(noteToDelete)
-            databaseDeleteNotes.add(noteToDelete)
+            databaseComments.removeAll { it.noteId == noteId }
         } else {
             throw NoteNotFoundException(noteId)
         }
